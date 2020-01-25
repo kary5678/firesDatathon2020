@@ -98,3 +98,19 @@ ggplot(fire_data)+geom_point(aes(x=FIRE_SIZE,y=CONT_TIME))
 ggplot(fire_data)+geom_point(aes(x=DISCOVERY_TIME,y=FIRE_SIZE))
 
 ggplot(fire_data)+geom_point(aes(x=DISCOVERY_TIME,y=CONT_TIME))
+
+###
+weathersample <- read.csv(file='DataWeatherCSV.csv', header = TRUE)
+gust <- weathersample$gust
+wind <- weathersample$wind.speed
+humidity <- weathersample$humidity
+time <- weathersample$DISCOVERY_TIME
+size <- weathersample$FIRE_SIZE
+weatherfit <- lm(size ~  gust + wind + humidity)
+summary(weatherfit)
+
+owner1 <- factor(fire_data$OWNER_DESCR[1:8000])
+unittype1 <- factor(fire_data$SOURCE_REPORTING_UNIT_NAME[1:8000])
+firesize1 <- fire_data$FIRE_SIZE[1:8000]
+anova1 <- aov(firesize1 ~ owner1*unittype1)
+summary.lm(anova1)
